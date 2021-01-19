@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{companyName}} Dashboard</title>
+	<link rel="shortcut icon" href="{{companyFaviconUrl}}"/>
+	<% for (var css in htmlWebpackPlugin.files.css) { %>
+	<link href=".<%= htmlWebpackPlugin.files.css[css] %>?{{frontVersion}}" rel="stylesheet">
+	<% } %>
+</head>
+<body ondragstart="return false" draggable="false"
+	  ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"
+	  ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
+	  ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();">
+<style>
+	body > #loader {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 100600;
+		background-color: #000;
+		color: #fff;
+	}
+</style>
+<!--<div id="loader">Loading</div>-->
+<div id="root"></div>
+
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<script src=".<%= htmlWebpackPlugin.files.chunks[chunk].entry %>?{{frontVersion}}"></script>
+<% } %>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtElBUK_V-PgP3ukg-InZ6A4RWoDCigNc&libraries=drawing,geometry,visualization"
+	async defer></script>
+</body>
+</html>

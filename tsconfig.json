@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"target": "esnext",
+		"moduleResolution": "node",
+		"allowJs": true,
+		"noEmit": true,
+		"strict": false,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"jsx": "react",
+		"baseUrl": "./",
+		"paths": {
+			"components/*": [
+				"src/components/*"
+			],
+			"stores/*": [
+				"src/stores/*"
+			],
+			"rootDir/*": [
+				"src/*"
+			],
+		}
+	}
+}
