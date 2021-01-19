@@ -1,4 +1,7 @@
 import React from "react";
+import {Provider} from 'mobx-react';
+import {rootStore} from 'stores/rootStore/rootStore';
+import MainLayer from "components/MainLayer/MainLayer";
 
 export default class AppMain extends React.Component<any, any> {
 	constructor(props) {
@@ -6,8 +9,8 @@ export default class AppMain extends React.Component<any, any> {
 	}
 
 	render() {
-		return <div className={"AppMain"}>
-			AppMain
-		</div>
+		return <Provider rootStore={rootStore}>
+			<MainLayer/>
+		</Provider>
 	}
 }

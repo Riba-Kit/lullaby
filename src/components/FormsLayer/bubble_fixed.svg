@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg51"
+   version="1.1"
+   viewBox="0 0 200 200">
+  <metadata
+     id="metadata55">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs39">
+    <!-- Разноцветный градиент -->
+    <linearGradient
+       y2="0"
+       x2="100%"
+       y1="100%"
+       x1="0"
+       id="gradient--colors">
+      <stop
+         id="stop2"
+         stop-color="dodgerblue"
+         offset="0%" />
+      <stop
+         id="stop4"
+         stop-color="fuchsia"
+         offset="50%" />
+      <stop
+         id="stop6"
+         stop-color="yellow"
+         offset="100%" />
+    </linearGradient>
+    <!-- Градиент прозрачности разноцветного слоя -->
+    <radialGradient
+       fy="25%"
+       fx="25%"
+       id="gradient--colors-transparency">
+      <stop
+         id="stop9"
+         stop-color="black"
+         offset="0%" />
+      <stop
+         id="stop11"
+         stop-opacity=".2"
+         stop-color="black"
+         offset="30%" />
+      <stop
+         id="stop13"
+         stop-opacity=".4"
+         stop-color="white"
+         offset="97%" />
+      <stop
+         id="stop15"
+         stop-color="black"
+         offset="100%" />
+    </radialGradient>
+    <!-- Маска прозрачности разноцветного слоя -->
+    <mask
+       id="mask--colors-transparency">
+      <rect
+         id="rect18"
+         height="100%"
+         width="100%"
+         fill="url(#gradient--colors-transparency)" />
+    </mask>
+    <!-- Градиент для прозрачности -->
+    <radialGradient
+       fy="10%"
+       id="gradient--bw-light">
+      <stop
+         id="stop21"
+         stop-opacity="0"
+         stop-color="black"
+         offset="60%" />
+      <stop
+         id="stop23"
+         stop-opacity=".25"
+         stop-color="white"
+         offset="90%" />
+      <stop
+         id="stop25"
+         stop-color="black"
+         offset="100%" />
+    </radialGradient>
+    <!-- Маска для нижнего отражения -->
+    <mask
+       id="mask--light-bottom">
+      <rect
+         id="rect28"
+         height="100%"
+         width="100%"
+         fill="url(#gradient--bw-light)" />
+    </mask>
+    <!-- Маска для верхнего отражения -->
+    <mask
+       id="mask--light-top">
+      <rect
+         id="rect31"
+         transform="rotate(180, 100, 100)"
+         height="100%"
+         width="100%"
+         fill="url(#gradient--bw-light)" />
+    </mask>
+    <!-- Градиент блика -->
+    <radialGradient
+       fy="20%"
+       id="gradient--spot">
+      <stop
+         id="stop34"
+         stop-opacity=".7"
+         stop-color="white"
+         offset="10%" />
+      <stop
+         id="stop36"
+         stop-opacity="0"
+         stop-color="white"
+         offset="70%" />
+    </radialGradient>
+  </defs>
+  <!-- Нижний блик -->
+  <ellipse
+     id="ellipse41"
+     transform="rotate(-225, 150, 150)"
+     fill="url(#gradient--spot)"
+     cy="150"
+     cx="150"
+     ry="20"
+     rx="40" />
+  <!-- Нижнее отражение -->
+  <circle
+     id="circle43"
+     mask="url(#mask--light-bottom)"
+     fill="aqua"
+     cy="50%"
+     cx="50%"
+     r="50%" />
+  <!-- Верхнее отражение -->
+  <circle
+     id="circle45"
+     mask="url(#mask--light-top)"
+     fill="yellow"
+     cy="50%"
+     cx="50%"
+     r="50%" />
+  <!-- Верхний блик -->
+  <ellipse
+     id="ellipse47"
+     transform="rotate(-45, 55, 55)"
+     fill="url(#gradient--spot)"
+     cy="55"
+     cx="55"
+     ry="25"
+     rx="55" />
+  <!-- Фигура с маской и разноцветным градиентом -->
+  <circle
+     id="circle49"
+     mask="url(#mask--colors-transparency)"
+     fill="url(#gradient--colors)"
+     cy="50%"
+     cx="50%"
+     r="50%" />
+</svg>
