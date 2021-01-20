@@ -9,6 +9,7 @@ export default class AppMain extends React.Component<any, any> {
 	}
 
 	render() {
+
 		return <Provider rootStore={rootStore}>
 			<MainLayer/>
 		</Provider>
