@@ -14,6 +14,7 @@ module.exports = {
 		compress: true,
 		port: 8182,
 		contentBase: './bundle',
+		host: '0.0.0.0',
 	},
 	devtool: global.isProduction
 				? false
