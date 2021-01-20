@@ -64,7 +64,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 		this.calculateInterval = setInterval(this.calculateAnimation, ANIMATION_DURATION);
 		this.removeTimeout = setTimeout(() => {
 			this.props.rootStore.removeElement(this.props.element.id);
-		}, Math.random() * 10 + 5)
+		}, Math.random() * 10000 + 5000)
 	}
 
 	componentWillUnmount() {
