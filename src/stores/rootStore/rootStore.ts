@@ -27,7 +27,7 @@ class RootStore {
 
 	removeElements = _.debounce(action(() => {
 		this.elements = this.elements.filter(e => !e.needRemove);
-	}), 1000, {leading: false, trailing: true});
+	}), 5000, {leading: false, trailing: true});
 
 	removeElement = (id: number) => {
 		let found = _.find(this.elements, {id});

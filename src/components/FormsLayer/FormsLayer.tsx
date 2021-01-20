@@ -46,6 +46,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	removeTimeout: NodeJS.Timeout;
 
 	size: number;
+	removed = false;
 
 	constructor(props) {
 		super(props);
@@ -62,9 +63,10 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	componentDidMount() {
 		this.calculateAnimation();
 		this.calculateInterval = setInterval(this.calculateAnimation, ANIMATION_DURATION);
-		this.removeTimeout = setTimeout(() => {
+		this.removeTimeout = setTimeout(action(() => {
+			this.removed = true;
 			this.props.rootStore.removeElement(this.props.element.id);
-		}, Math.random() * 10000 + 5000)
+		}), Math.random() * 10000 + 5000)
 	}
 
 	componentWillUnmount() {
@@ -130,6 +132,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	}
 
 	render() {
+		if (this.removed) return null;
 		return <>
 			<style>
 				{this.styleTag}
