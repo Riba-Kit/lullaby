@@ -12,10 +12,7 @@ export interface IElement {
 	initY: number,
 	id: number,
 	needRemove: boolean,
-	allowRemove: boolean,
 }
-
-const MAX_BUBBLES = 3;
 
 class RootStore {
 	mainLayerRef: React.RefObject<HTMLDivElement>;
@@ -23,26 +20,19 @@ class RootStore {
 
 	addElement = action((initX: number, initY: number) => {
 		this.elements.push({
-			initX, initY, id: getUniqNumber(), needRemove: false, allowRemove: false,
+			initX, initY, id: getUniqNumber(), needRemove: false
 		});
 		this.elements = this.elements.slice();
-		if (this.elements.length > MAX_BUBBLES) {
-			for (let i = 0; i < this.elements.length - MAX_BUBBLES; i++) {
-				if (!this.elements[i].needRemove) {
-					this.elements[i].needRemove = true;
-				}
-			}
-		}
 	});
 
 	removeElements = _.debounce(action(() => {
-		this.elements = this.elements.filter(e => !e.allowRemove);
+		this.elements = this.elements.filter(e => !e.needRemove);
 	}), 1000, {leading: false, trailing: true});
 
-	removeElement = (element:IElement) => {
-		let found = _.find(this.elements, element);
+	removeElement = (id: number) => {
+		let found = _.find(this.elements, {id});
 		if (found) {
-			found.allowRemove = true;
+			found.needRemove = true;
 			this.removeElements();
 		}
 	};

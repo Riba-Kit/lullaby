@@ -43,6 +43,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	animationCounter: number = 0;
 
 	calculateInterval: NodeJS.Timeout;
+	removeTimeout: NodeJS.Timeout;
 
 	size: number;
 
@@ -61,17 +62,17 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	componentDidMount() {
 		this.calculateAnimation();
 		this.calculateInterval = setInterval(this.calculateAnimation, ANIMATION_DURATION);
+		this.removeTimeout = setTimeout(() => {
+			this.props.rootStore.removeElement(this.props.element.id);
+		}, Math.random() * 10 + 5)
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.calculateInterval);
+		clearTimeout(this.removeTimeout);
 	}
 
 	calculateAnimation = action(() => {
-		if (this.props.element.needRemove) {
-			this.props.rootStore.removeElement(this.props.element);
-			return;
-		}
 		this.animationCounter++;
 		this.anchorX = this.endX;
 		this.anchorY = this.endY;
