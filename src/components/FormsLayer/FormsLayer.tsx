@@ -46,7 +46,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	removeTimeout: NodeJS.Timeout;
 
 	size: number;
-	removed = false;
+	@observable removed = false;
 
 	constructor(props) {
 		super(props);
@@ -66,7 +66,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 		this.removeTimeout = setTimeout(action(() => {
 			this.removed = true;
 			this.props.rootStore.removeElement(this.props.element.id);
-		}), Math.random() * 10000 + 5000)
+		}), Math.random() * 20000 + 5000)
 	}
 
 	componentWillUnmount() {
