@@ -10,6 +10,8 @@ function getUniqNumber() {
 export interface IElement {
 	initX: number,
 	initY: number,
+	initX2: number,
+	initY2: number,
 	id: number,
 	needRemove: boolean,
 }
@@ -18,9 +20,9 @@ class RootStore {
 	mainLayerRef: React.RefObject<HTMLDivElement>;
 	@observable elements: IElement[] = [];
 
-	addElement = action((initX: number, initY: number) => {
+	addBubble = action((x: number, y: number, x2: number, y2: number) => {
 		this.elements.push({
-			initX, initY, id: getUniqNumber(), needRemove: false
+			initX: x, initY: y,initX2: x2, initY2: y2, id: getUniqNumber(), needRemove: false
 		});
 		this.elements = this.elements.slice();
 	});

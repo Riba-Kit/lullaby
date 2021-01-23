@@ -27,34 +27,23 @@ export default class MainLayer extends React.Component<IMainLayerProps> {
 		this.props.rootStore.mainLayerRef = this.mainDivRef;
 	}
 
-	addBubble =(clientX, clientY,) => {
-
-		fullScreen(this.root);
-
-		let bounding = this.mainDivRef.current.getBoundingClientRect();
-
-		let relativeX = clientX - bounding.left;
-		let relativeY = clientY - bounding.top;
-
-		this.props.rootStore.addElement(relativeX, relativeY);
+	onClick = (e: MouseEvent) => {
+		//fullScreen(this.root);
 	}
 
-	onClick = (event: MouseEvent) => {
-		if ('ontouchend' in document.documentElement) return;
-		this.addBubble(event.clientX, event.clientY);
-	}
-
-	onTouchEnd = (event: TouchEvent) => {
-		this.addBubble(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+	addBubble = (x: number, y: number, x2: number, y2: number) => {
+		this.props.rootStore.addBubble(x, y,x2,y2);
 	}
 
 	render() {
 		return <div className={"MainLayer"}
 					onClick={this.onClick}
-					onTouchEnd={this.onTouchEnd}
+					// onMouseMove={this.onMouseMove}
+					//onMouseDown={this.onMouseDown}
+					//onTouchEnd={this.onTouchEnd}
 					ref={this.mainDivRef}>
+			<Tree addBubble={this.addBubble}/>
 			<FormsLayer/>
-			<Tree/>
 		</div>
 	}
 }

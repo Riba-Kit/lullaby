@@ -27,6 +27,7 @@ export default class FormsLayer extends React.Component<IMainLayerProps> {
 }
 
 const ANIMATION_DURATION = 15000;
+const INITIAL_ANIMATION_DURATION = 5000;
 
 @inject("rootStore") @observer
 class FlyingElement extends React.Component<{ element: IElement, rootStore?: RootStore }> {
@@ -35,6 +36,8 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	anchorY: number;
 	endX: number;
 	endY: number;
+	startX: number;
+	startY: number;
 	divRef: React.RefObject<HTMLDivElement>;
 	@observable keyframes: string;
 	@observable animationTimingX: string;
@@ -43,41 +46,56 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	animationCounter: number = 0;
 
 	calculateInterval: NodeJS.Timeout;
+	initialTimeout: NodeJS.Timeout;
 	removeTimeout: NodeJS.Timeout;
 
 	size: number;
 	@observable removed = false;
 
+	initialKeyframes: string;
+
 	constructor(props) {
 		super(props);
 
-		this.anchorX = this.props.element.initX;
-		this.anchorY = this.props.element.initY;
-		this.endX = this.props.element.initX;
-		this.endY = this.props.element.initY;
+		this.anchorX = this.props.element.initX2;
+		this.anchorY = this.props.element.initY2;
+		this.endX = this.anchorX;
+		this.endY = this.anchorY;
 		this.size = Math.random() * 12 + 2;
 
 		this.divRef = React.createRef();
+		this.initialKeyframes = `
+			@keyframes InitialFlyingElement${this.props.element.id} {
+			 	from { transform: translateX(${this.props.element.initX - this.anchorX}px) translateY(${this.props.element.initY - this.anchorY}px) scale(0);}
+			 	to { transform: translateX(0) translateY(0) scale(1) ; }
+			}			
+		`;
 	}
 
 	componentDidMount() {
-		this.calculateAnimation();
-		this.calculateInterval = setInterval(this.calculateAnimation, ANIMATION_DURATION);
-		this.removeTimeout = setTimeout(action(() => {
-			this.removed = true;
-			this.props.rootStore.removeElement(this.props.element.id);
-		}), Math.random() * 20000 + 5000)
+		this.initialTimeout = setTimeout(() => {
+			this.calculateAnimation();
+			this.calculateInterval = setInterval(this.calculateAnimation, ANIMATION_DURATION);
+			this.removeTimeout = setTimeout(() => this.killBubble(), Math.random() * 20000 + 50000);
+		}, 0);
 	}
 
 	componentWillUnmount() {
 		clearInterval(this.calculateInterval);
 		clearTimeout(this.removeTimeout);
+		//clearTimeout(this.initialTimeout);
 	}
+
+	killBubble = action(() => {
+		if (this.removed) return;
+		this.removed = true;
+		this.props.rootStore.removeElement(this.props.element.id);
+	});
 
 	calculateAnimation = action(() => {
 		this.animationCounter++;
-		this.anchorX = this.endX;
-		this.anchorY = this.endY;
+		this.startX = this.endX;
+		this.startY = this.endY;
 		let angle = Math.random() * 2 * Math.PI;
 		let bounding = this.props.rootStore.mainLayerRef.current.getBoundingClientRect();
 		let thisBounding = this.divRef.current.getBoundingClientRect();
@@ -88,18 +106,22 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 
 		this.keyframes = `
 			@keyframes FlyingElementX${this.props.element.id}_${this.animationCounter} {
-			 	from { transform: translateX(${this.anchorX}px); }
-			 	to { transform: translateX(${this.endX}px); }
+			 	from { transform: translateX(${this.startX - this.anchorX}px); }
+			 	to { transform: translateX(${this.endX - this.anchorX}px); }
 			}
 			@keyframes FlyingElementY${this.props.element.id}_${this.animationCounter} {
-			 	from { transform: translateY(${this.anchorY}px); }
-			 	to { transform: translateY(${this.endY}px); }
+			 	from { transform: translateY(${this.startY - this.anchorY}px); }
+			 	to { transform: translateY(${this.endY - this.anchorY}px); }
 			}
 		`;
 
-		this.animationTimingX = `cubic-bezier(${Math.random()}, ${Math.random() * 2 - 1}, ${Math.random()}, ${Math.random() * 2 - 1})`;
+		this.animationTimingX = `cubic-bezier(${Math.random()}, ${
+			this.animationCounter === 1 ? 0 : Math.random() * 2 - 1
+		}, ${Math.random()}, ${Math.random() * 2 - 1})`;
 
-		this.animationTimingY = `cubic-bezier(${Math.random()}, ${Math.random() * 2 - 1}, ${Math.random()}, ${Math.random() * 2 - 1})`;
+		this.animationTimingY = `cubic-bezier(${Math.random()}, ${
+			this.animationCounter === 1 ? 0 : Math.random() * 2 - 1
+		}, ${Math.random()}, ${Math.random() * 2 - 1})`;
 	})
 
 	@computed get style() {
@@ -108,14 +130,27 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 			height: this.size + "vmin",
 			marginTop: -this.size / 2 + "vmin",
 			marginLeft: -this.size / 2 + "vmin",
+			top: `${this.anchorY}px`,
+			left: `${this.anchorX}px`,
 		};
 	}
 
-
+	@computed get initialStyleTag() {
+		return `
+			${this.initialKeyframes}
+			.InitialFlyingElement__position--${this.props.element.id} {				
+				animation: InitialFlyingElement${this.props.element.id};
+				animation-timing-function: easy-out;
+				animation-fill-mode: forwards;
+				animation-duration: ${INITIAL_ANIMATION_DURATION}ms;
+				transform-origin: center;
+			}			
+		`;
+	}
 
 	@computed get styleTag() {
 		return `
-			${this.keyframes}
+			${this.keyframes || ''}
 			.FlyingElement__positionX--${this.props.element.id} {
 				animation: FlyingElementX${this.props.element.id}_${this.animationCounter};
 				animation-timing-function: ${this.animationTimingX};
@@ -131,21 +166,34 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 		`;
 	}
 
+	onClick = () => {
+		if ('ontouchstart' in document.documentElement) return;
+		this.killBubble();
+	}
+
+	onTouchStart = () => {
+		this.killBubble();
+	}
+
 	render() {
 		if (this.removed) return null;
-		return <>
+		return <div className={"FlyingElement"}
+					ref={this.divRef}
+					style={this.style}
+					onTouchStart={this.onTouchStart}
+					onClick={this.onClick}>
 			<style>
+				{this.initialStyleTag}
 				{this.styleTag}
 			</style>
-			<div className={"FlyingElement"}
-				 ref={this.divRef}>
+
+			<div className={`InitialFlyingElement__position--${this.props.element.id}`}>
 				<div className={`FlyingElement__positionX--${this.props.element.id}`}>
 					<div className={`FlyingElement__positionY--${this.props.element.id}`}>
-						<div className={"FlyingElement__inners"}
-							 style={this.style}/>
+						<div className={"FlyingElement__inners"}/>
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	}
 }
