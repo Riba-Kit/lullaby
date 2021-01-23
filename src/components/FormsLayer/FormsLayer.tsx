@@ -179,9 +179,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 		if (this.removed) return null;
 		return <div className={"FlyingElement"}
 					ref={this.divRef}
-					style={this.style}
-					onTouchStart={this.onTouchStart}
-					onClick={this.onMouseDown}>
+					style={this.style}>
 			<style>
 				{this.initialStyleTag}
 				{this.styleTag}
@@ -190,7 +188,16 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 			<div className={`InitialFlyingElement__position--${this.props.element.id}`}>
 				<div className={`FlyingElement__positionX--${this.props.element.id}`}>
 					<div className={`FlyingElement__positionY--${this.props.element.id}`}>
-						<div className={"FlyingElement__inners"}/>
+						<div className={"FlyingElement__inners"}>
+							<svg viewBox={"0 0 1 1"}>
+								<circle cx={0.5} cy={0.5} r={0.5}
+										fill={'none'}
+										stroke={'none'}
+										strokeWidth={0.01}
+										onTouchStart={this.onTouchStart}
+										onClick={this.onMouseDown}/>
+							</svg>
+						</div>
 					</div>
 				</div>
 			</div>

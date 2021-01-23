@@ -28,7 +28,7 @@ export default class MainLayer extends React.Component<IMainLayerProps> {
 	}
 
 	onClick = (e: MouseEvent) => {
-		//fullScreen(this.root);
+		fullScreen(this.root);
 	}
 
 	addBubble = (x: number, y: number, x2: number, y2: number) => {
