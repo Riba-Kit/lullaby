@@ -166,7 +166,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 		`;
 	}
 
-	onClick = () => {
+	onMouseDown = () => {
 		if ('ontouchstart' in document.documentElement) return;
 		this.killBubble();
 	}
@@ -181,7 +181,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 					ref={this.divRef}
 					style={this.style}
 					onTouchStart={this.onTouchStart}
-					onClick={this.onClick}>
+					onClick={this.onMouseDown}>
 			<style>
 				{this.initialStyleTag}
 				{this.styleTag}
