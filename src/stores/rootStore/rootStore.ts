@@ -16,7 +16,14 @@ export interface IElement {
 	needRemove: boolean,
 }
 
+export interface ISound {
+	once: boolean,
+	url: string,
+	autostart: boolean,
+}
+
 class RootStore {
+	@observable sounds: ISound[] = [];
 	mainLayerRef: React.RefObject<HTMLDivElement>;
 	@observable elements: IElement[] = [];
 
@@ -38,6 +45,15 @@ class RootStore {
 			this.removeElements();
 		}
 	};
+
+	removeSound = action((sound: ISound) => {
+		this.sounds = this.sounds.filter(oldSound => oldSound !== sound);
+	})
+
+	addSound = action((sound: ISound) => {
+		this.sounds.push(sound);
+		this.sounds = this.sounds.slice();
+	})
 }
 
 let rootStore = new RootStore();

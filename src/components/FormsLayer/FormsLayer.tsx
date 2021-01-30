@@ -4,6 +4,7 @@ import {IElement, RootStore} from "stores/rootStore/rootStore";
 import {action, computed, observable} from "mobx";
 import './FlyingElement.styl';
 import _ from "lodash";
+const bubble = require("./bubble.mp3");
 
 interface IMainLayerProps {
 	rootStore?: RootStore,
@@ -89,6 +90,11 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 	killBubble = action(() => {
 		if (this.removed) return;
 		this.removed = true;
+		this.props.rootStore.addSound({
+			once: true,
+			autostart: true,
+			url: bubble
+		});
 		this.props.rootStore.removeElement(this.props.element.id);
 	});
 
