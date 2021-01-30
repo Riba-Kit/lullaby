@@ -201,7 +201,7 @@ class FlyingElement extends React.Component<{ element: IElement, rootStore?: Roo
 										stroke={'none'}
 										strokeWidth={0.01}
 										onTouchStart={this.onTouchStart}
-										onClick={this.onMouseDown}/>
+										onMouseDown={this.onMouseDown}/>
 							</svg>
 						</div>
 					</div>
