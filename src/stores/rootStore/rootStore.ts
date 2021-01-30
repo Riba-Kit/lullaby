@@ -16,10 +16,17 @@ export interface IElement {
 	needRemove: boolean,
 }
 
+interface ISoundSpec {
+	once: boolean,
+	url: string,
+	autostart: boolean,
+}
+
 export interface ISound {
 	once: boolean,
 	url: string,
 	autostart: boolean,
+	id: number,
 }
 
 class RootStore {
@@ -50,8 +57,14 @@ class RootStore {
 		this.sounds = this.sounds.filter(oldSound => oldSound !== sound);
 	})
 
-	addSound = action((sound: ISound) => {
-		this.sounds.push(sound);
+	addSound = action((sound: ISoundSpec) => {
+		let newSound = {
+			once: sound.once,
+			url: sound.url,
+			autostart: sound.autostart,
+			id: getUniqNumber(),
+		};
+		this.sounds.push(newSound);
 		this.sounds = this.sounds.slice();
 	})
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import {observer, inject} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import Sound from 'react-sound';
-import {observable} from "mobx";
 import {ISound, RootStore} from "stores/rootStore/rootStore";
 
 interface IAudioPlayerProps {
@@ -25,7 +24,8 @@ export default class AudioPlayer extends React.Component<IAudioPlayerProps> {
 		return <>
 			{
 				this.props.rootStore.sounds.map(sound =>
-					<Sound url={sound.url}
+					<Sound key={sound.id}
+						   url={sound.url}
 						   autoLoad={true}
 						   playStatus={sound.autostart ? Sound.status.PLAYING : undefined}
 						   onFinishedPlaying={() => this.onFinishedPlaying(sound)}/>
