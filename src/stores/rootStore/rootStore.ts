@@ -4,7 +4,9 @@ import _ from "lodash";
 
 let uniqNumber = 0;
 function getUniqNumber() {
-	return uniqNumber++;
+	let result = uniqNumber;
+	uniqNumber+=1;
+	return result;
 }
 
 export interface IElement {
